@@ -5,6 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { NgxIndexedDBModule, NgxIndexedDBService } from 'ngx-indexed-db';
+import { dbConfig } from './data/db.config';
+import { OfflineInteceptor } from './interceptors/offline.interceptor';
+import { ConnectionServiceModule } from 'ngx-connection-service';
 
 @NgModule({
   declarations: [
@@ -13,14 +19,24 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
-      // Register the ServiceWorker as soon as the app is stable
-      // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    BrowserAnimationsModule,
+    NgxIndexedDBModule.forRoot(dbConfig),
+    ConnectionServiceModule
   ],
-  providers: [],
+  providers: [
+    HttpClient, 
+    { 
+      provide: HTTP_INTERCEPTORS, 
+      useClass: OfflineInteceptor, 
+      multi: true,
+      deps: [NgxIndexedDBService]
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

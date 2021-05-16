@@ -1,0 +1,31 @@
+<div fxLayoutAlign="center center" class="register-container">
+    <div fxLayout="row" fxFlex="80%" class="mat-elevation-z2 border">
+        <div class="back-img w-50"></div>
+        <form (ngSubmit)="onSubmit()" [formGroup]="form"
+        style="padding: 7% 4%;"
+            class="w-50" fxLayout="row" fxLayoutAlign="start start">            
+            <div fxLayout="column" fxLayoutAlign="center stretch" fxFlex>
+                <h1>Registration Info</h1>
+                <mat-form-field appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input matInput required formControlName="firstname">
+                </mat-form-field>
+    
+                <mat-form-field appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput required formControlName="lastname">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput required formControlName="email">
+                </mat-form-field>
+
+                <button mat-raised-button color="primary">Register</button>
+
+                <br>
+                <span fxLayoutAlign="center center">Create Account</span>
+            </div>
+        </form>
+    </div>
+</div>
